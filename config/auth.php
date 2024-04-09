@@ -14,14 +14,14 @@ function conectarDB() {
     }
 }
 
-function verificarCredenciais($cnpj, $senha) {
+function verificarCredenciais($usuario, $senha) {
     try {
         $conexao = conectarDB();
 
-        $query = "SELECT id FROM cliente WHERE cnpj = :cnpj AND senha = :senha";
+        $query = "SELECT id FROM vendedores WHERE usuario = :usuario AND senha = :senha";
         $stmt = $conexao->prepare($query);
-        $stmt->bindParam(':cnpj', $cnpj);
-        $stmt->bindParam(':senha', $senha);
+        $stmt->bindParam(':usuario', $cnpj);
+        $stmt->bindParam(':usuario', $senha);
         $stmt->execute();
 
         if ($stmt->rowCount() == 1) {
