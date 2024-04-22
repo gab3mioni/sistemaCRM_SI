@@ -27,5 +27,19 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `razao` varchar(45) NOT NULL,
   `cnpj` varchar(45) NOT NULL,
+  `endereco` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `vendas`;
+CREATE TABLE IF NOT EXISTS `vendas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `empresa` varchar(45) NOT NULL,
+  `cnpj` varchar(45) NOT NULL,
+  `itens` varchar(45) NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `valor` float NOT NULL,
+  `data` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
