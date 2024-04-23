@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `razao` varchar(45) NOT NULL,
   `cnpj` varchar(45) NOT NULL,
+  `ramo` varchar(45) NOT NULL,
   `endereco` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
@@ -43,3 +44,13 @@ CREATE TABLE IF NOT EXISTS `vendas` (
   `data` datetime NOT NULL,
   PRIMARY KEY (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ -- INSERINDO DADOS PARA TESTES
+
+ INSERT INTO `clientes` (`id`, `razao`, `cnpj`, `ramo`, `endereco`, `email`) VALUES
+ (1, 'Empresa 1', 12345678911, 'Financeiro',      'Endereço 1, 001', 'empresa1@gmail.com'),
+ (2, 'Empresa 2', 12345678912, 'Farmaceutico',    'Endereço 2, 002', 'empresa2@gmail.com'),
+ (3, 'Empresa 3', 12345678913, 'Alimenticio',     'Endereço 3, 003', 'empresa3@gmail.com'),
+ (4, 'Empresa 4', 12345678914, 'Tecnologia',      'Endereço 4, 004', 'empresa4@gmail.com'),
+ (5, 'Empresa 5', 12345678915, 'Estético',        'Endereço 5, 005', 'empresa5@gmail.com'),
+ (6, 'Empresa 6', 12345678916, 'Automobilistico', 'Endereço 6, 006', 'empresa6@gmail.com');
