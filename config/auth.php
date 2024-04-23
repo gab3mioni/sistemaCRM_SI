@@ -34,5 +34,3 @@ function verificarCredenciais($usuario, $senha) {
         die("Erro ao verificar credenciais: " . $e->getMessage());
     }
 }
-
-?>
