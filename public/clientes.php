@@ -3,7 +3,7 @@ include("../config/config.php");
 
 session_start();
 
-$consultaClientes = "SELECT * FROM clientes ORDER BY id DESC";
+$consultaClientes = "SELECT * FROM clientes ORDER BY id ASC";
 $stmt = $conexao->prepare($consultaClientes);
 $stmt->execute();
 ?>
