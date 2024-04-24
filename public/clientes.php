@@ -27,7 +27,7 @@ $stmt->execute();
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">CRM FATEC</a>
+            <a class="navbar-brand" href="dashboard.php">CRM FATEC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -39,10 +39,10 @@ $stmt->execute();
                         <a class="nav-link" aria-current="page" href="clientes.php">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Vendedores</a>
+                        <a class="nav-link" href="vendedores.php">Vendedores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Configurações</a>
+                        <a class="nav-link" href="configuracoes.php">Configurações</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sair</a>
