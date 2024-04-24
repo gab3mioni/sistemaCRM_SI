@@ -49,9 +49,36 @@ session_start();
         </div>
     </nav>
 
-    
+    <div class="container text-center">
+
+        <div class="row align-items-start mt-4">
+
+            <div class="col-2">
+                <h4>Lead In</h4>
+            </div>
+
+            <div class="col-2">
+                <h4>Contato Feito</h4>
+            </div>
+
+            <div class="col-2">
+                <h4>Em Progresso</h4>
+            </div>
+
+            <div class="col-2">
+                <h4>Proposta Feita</h4>
+            </div>
+
+            <div class="col-2">
+                <h4>Em Negociação</h4>
+            </div>
+
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
