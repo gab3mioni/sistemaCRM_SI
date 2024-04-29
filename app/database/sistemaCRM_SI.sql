@@ -45,6 +45,138 @@ CREATE TABLE IF NOT EXISTS `vendas` (
   PRIMARY KEY (`id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+DROP TABLE IF EXISTS `leads`;
+CREATE TABLE IF NOT EXISTS `leads` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    nome_lead VARCHAR(255),
+    email VARCHAR(255),
+    telefone VARCHAR(20),
+    interesse VARCHAR(255),
+    data_captura DATE,
+    valor VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS `contatos`;
+CREATE TABLE IF NOT EXISTS `contatos` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    lead_id INT,
+    lead_nome VARCHAR(255),
+    data_contato DATE,
+    meio_contato VARCHAR(50),
+    detalhes TEXT,
+    data_captura DATE
+);
+
+DELIMITER //
+CREATE TRIGGER trg_before_insert_contatos
+BEFORE INSERT ON contatos
+FOR EACH ROW
+BEGIN
+    DECLARE v_id INT;
+    DECLARE v_nome VARCHAR(255);
+    DECLARE v_data_captura DATE;
+    
+    SELECT id, nome_lead, data_captura INTO v_id, v_nome, v_data_captura FROM leads WHERE id = NEW.lead_id;
+    
+    IF v_id IS NOT NULL AND v_nome IS NOT NULL THEN
+        SET NEW.lead_id = v_id;
+        SET NEW.lead_nome = v_nome;
+        SET NEW.data_captura = v_data_captura;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: lead_id ou lead_nome inválido.';
+    END IF;
+END //
+DELIMITER ;
+
+CREATE TABLE IF NOT EXISTS `progresso` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    lead_id INT,
+    nome_lead_progresso VARCHAR (255),
+    atividade VARCHAR(255),
+    data_atividade DATE,
+    detalhes TEXT
+);
+
+DELIMITER //
+CREATE TRIGGER trg_before_insert_progresso
+BEFORE INSERT ON progresso
+FOR EACH ROW
+BEGIN
+    DECLARE v_id INT;
+    DECLARE v_nome VARCHAR(255);
+    
+    SELECT id, nome_lead INTO v_id, v_nome FROM leads WHERE id = NEW.lead_id;
+    
+    IF v_id IS NOT NULL AND v_nome IS NOT NULL THEN
+        SET NEW.nome_lead_progresso = v_nome;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: lead_id ou lead_nome inválido.';
+    END IF;
+END //
+DELIMITER ;
+
+DROP TABLE IF EXISTS `propostas`;
+CREATE TABLE IF NOT EXISTS `propostas` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    lead_id INT,
+    nome_proposta VARCHAR(255),
+    data_primeiro_contato DATE,
+    data_proposta DATE,
+    descricao TEXT,
+    status VARCHAR(50),
+    FOREIGN KEY (lead_id) REFERENCES leads(id)
+);
+
+DELIMITER //
+CREATE TRIGGER trg_before_insert_propostas
+BEFORE INSERT ON propostas
+FOR EACH ROW
+BEGIN
+    DECLARE v_id INT;
+    DECLARE v_nome VARCHAR(255);
+    DECLARE v_captura DATE;
+    
+    SELECT id, nome_lead, data_captura INTO v_id, v_nome, v_captura FROM leads WHERE id = NEW.lead_id;
+    
+    IF v_id IS NOT NULL AND v_nome IS NOT NULL THEN
+        SET NEW.nome_proposta = v_nome;
+        SET NEW.data_primeiro_contato = v_captura;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: lead_id ou lead_nome inválido.';
+    END IF;
+END //
+DELIMITER ;
+
+DROP TABLE IF EXISTS `negociacoes`;
+CREATE TABLE IF NOT EXISTS `negociacoes` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_negociacao VARCHAR (255),
+    lead_id INT,
+    data_negociacao DATE,
+    descricao TEXT,
+    status VARCHAR(50),
+    FOREIGN KEY (lead_id) REFERENCES leads(id)
+);
+DELIMITER //
+CREATE TRIGGER trg_before_insert_negociacoes
+BEFORE INSERT ON negociacoes
+FOR EACH ROW
+BEGIN
+    DECLARE v_id INT;
+    DECLARE v_nome VARCHAR(255);
+    
+    SELECT id, nome_lead INTO v_id, v_nome FROM leads WHERE id = NEW.lead_id;
+    
+    IF v_id IS NOT NULL AND v_nome IS NOT NULL THEN
+        SET NEW.nome_negociacao = v_nome;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro: lead_id ou lead_nome inválido.';
+    END IF;
+END //
+DELIMITER ;
+
+
  -- INSERINDO DADOS PARA TESTES
 
  INSERT INTO `clientes` (`id`, `razao`, `cnpj`, `ramo`, `endereco`, `email`) VALUES
@@ -54,3 +186,26 @@ CREATE TABLE IF NOT EXISTS `vendas` (
  (4, 'Empresa 4', 12345678914, 'Tecnologia',      'Endereço 4, 004', 'empresa4@gmail.com'),
  (5, 'Empresa 5', 12345678915, 'Estético',        'Endereço 5, 005', 'empresa5@gmail.com'),
  (6, 'Empresa 6', 12345678916, 'Automobilistico', 'Endereço 6, 006', 'empresa6@gmail.com');
+
+ INSERT INTO `admin` (`id`, `usuario`, `email`, `senha`) VALUES
+ (1, 'admin', 'admin@gmail.com', '123');
+
+ INSERT INTO leads (nome, nome_lead, email, telefone, interesse, data_captura, valor)
+VALUES ('João Silva','Deal 1', 'joao@example.com', '123456789', 'Produto A', '2024-04-28', '10.000,00'),
+       ('Maria Souza','Deal 2', 'maria@example.com', '987654321', 'Produto B', '2024-04-28', '10.000,00');
+
+INSERT INTO contatos (lead_id, data_contato, meio_contato, detalhes)
+VALUES (1, '2024-04-29', 'Telefone', 'Conversa inicial sobre o produto'),
+       (2, '2024-04-29', 'Email', 'Enviada apresentação do produto');
+
+INSERT INTO progresso (lead_id, atividade, data_atividade, detalhes)
+VALUES (1, 'Reunião agendada', '2024-05-01', 'Reunião para apresentação do produto'),
+       (2, 'Acompanhamento', '2024-05-02', 'Esperando retorno após enviar proposta');
+
+INSERT INTO propostas (lead_id, data_proposta, descricao, status)
+VALUES (1, '2024-05-02', 'Proposta para aquisição do produto A', 'Aberta'),
+       (2, '2024-05-01', 'Proposta para aquisição do produto B', 'Visualizada');
+
+INSERT INTO negociacoes (lead_id, data_negociacao, descricao, status)
+VALUES (1, '2024-05-03', 'Negociação em andamento', 'Em andamento'),
+       (2, '2024-05-02', 'Aguardando retorno do lead', 'Em andamento');
