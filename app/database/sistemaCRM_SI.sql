@@ -189,23 +189,3 @@ DELIMITER ;
 
  INSERT INTO `admin` (`id`, `usuario`, `email`, `senha`) VALUES
  (1, 'admin', 'admin@gmail.com', '123');
-
- INSERT INTO leads (nome, nome_lead, email, telefone, interesse, data_captura, valor)
-VALUES ('João Silva','Deal 1', 'joao@example.com', '123456789', 'Produto A', '2024-04-28', '10.000,00'),
-       ('Maria Souza','Deal 2', 'maria@example.com', '987654321', 'Produto B', '2024-04-28', '10.000,00');
-
-INSERT INTO contatos (lead_id, data_contato, meio_contato, detalhes)
-VALUES (1, '2024-04-29', 'Telefone', 'Conversa inicial sobre o produto'),
-       (2, '2024-04-29', 'Email', 'Enviada apresentação do produto');
-
-INSERT INTO progresso (lead_id, atividade, data_atividade, detalhes)
-VALUES (1, 'Reunião agendada', '2024-05-01', 'Reunião para apresentação do produto'),
-       (2, 'Acompanhamento', '2024-05-02', 'Esperando retorno após enviar proposta');
-
-INSERT INTO propostas (lead_id, data_proposta, descricao, status)
-VALUES (1, '2024-05-02', 'Proposta para aquisição do produto A', 'Aberta'),
-       (2, '2024-05-01', 'Proposta para aquisição do produto B', 'Visualizada');
-
-INSERT INTO negociacoes (lead_id, data_negociacao, descricao, status)
-VALUES (1, '2024-05-03', 'Negociação em andamento', 'Em andamento'),
-       (2, '2024-05-02', 'Aguardando retorno do lead', 'Em andamento');
