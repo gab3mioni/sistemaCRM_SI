@@ -1,15 +1,3 @@
-<?php
-include ("../config/config.php");
-
-session_start();
-
-$consultaClientes = "SELECT * FROM leads ORDER BY id ASC";
-$stmt = $conexao->prepare($consultaClientes);
-$stmt->execute();
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,10 +6,9 @@ $stmt->execute();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
-    <link rel="stylesheet" href="../app/class/dashboard.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../app/class/dashboard.css">
 
 </head>
 
@@ -35,7 +22,9 @@ $stmt->execute();
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+
+                <span class="navbar-toggler-icon"></span>]
+                
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -60,111 +49,116 @@ $stmt->execute();
     </nav>
     <!-- fim cabeçalho -->
 
-    <div class="colunas">
+    <button id="addLeadBtn" class="btn btn-primary"><span style="font-weight: bold;">+</span> Nova Negociação</button>
 
+    <div class="colunas">
         <div class="d-flex">
 
-            <div class=" titulo_coluna">
-                <h5 class="margin_titulo">Lead In</h5>
-                <div class="lead">
-                    <?php
-                    $stmt1 = $conexao->prepare("SELECT * FROM leads");
-                    $stmt1->execute();
-                    while ($userData = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<div class='lead-card card m-2'>";
-                        echo "<div class='border-top border-3 border-secondary fw-bold'><h5><strong>" . $userData['nome_lead'] . "</strong></h5></div>";
-                        echo "<div class='h6'><p><strong>Sobre:</strong> " . $userData['interesse'] . "</p></div>";
-                        echo "<div class='fs-6 text-light bg-secondary rounded text-center'><p><strong>Valor:</strong> " . $userData['valor'] . "</p></div>";
-                        echo "</div>";
-                    }
-                    ?>
+            <div class="titulo_coluna lead">
+                <h5 class="margin_titulo column">Lead in</h5>
+                <div id="leadIn" class="lead" draggable="true">
+                    <!-- Cards serão adicionados aqui -->
                 </div>
-                <button class="botao-customizado "><span style="font-weight: bold;">+</span> Nova Negociação</button>
             </div>
 
-
-
-            <div class=" titulo_coluna">
-                <h5 class="margin_titulo">Contato Feito</h5>
-                <div class="lead">
-                    <?php
-                    $stmt2 = $conexao->prepare("SELECT * FROM contatos");
-                    $stmt2->execute();
-                    while ($userData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<div class='lead-card card m-2'>";
-                        echo "<div class='border-top border-3 border-secondary fw-bold'><h5><strong>" . $userData['lead_nome'] . "</strong></h5></div>";
-                        echo "<div class='h6'><p><strong>Negociação:</strong> " . $userData['data_captura'] . "</p></div>";
-                        echo "<div class='fs-6 text-light bg-secondary rounded text-center'><p><strong>Detalhes:</strong> " . $userData['detalhes'] . "</p></div>";
-                        echo "</div>";
-                    }
-                    ?>
+            <div class="titulo_coluna lead">
+                <h5 class="margin_titulo column">Contato Feito</h5>
+                <div id="contatoFeito" class="lead" draggable="true">
+                    <!-- Cards serão adicionados aqui -->
                 </div>
-                <button class="botao-customizado"><span style="font-weight: bold;">+</span> Nova Negociação</button>
             </div>
 
-
-            <div class=" titulo_coluna">
-                <h5 class="margin_titulo">Em Progresso</h5>
-                <div class="lead">
-                    <?php
-                    $stmt2 = $conexao->prepare("SELECT * FROM progresso");
-                    $stmt2->execute();
-                    while ($userData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<div class='lead-card card m-2'>";
-                        echo "<div class='border-top border-3 border-secondary fw-bold'><h5><strong>" . $userData['nome_lead_progresso'] . "</strong></h5></div>";
-                        echo "<div class='h6'><p><strong>Atividade:</strong> " . $userData['atividade'] . "</p></div>";
-                        echo "<div class='fs-6 text-light bg-secondary rounded text-center'><p><strong>Detalhes:</strong> " . $userData['detalhes'] . "</p></div>";
-                        echo "</div>";
-                    }
-                    ?>
+            <div class="titulo_coluna lead">
+                <h5 class="margin_titulo column">Em Progresso</h5>
+                <div id="emProgresso" class="lead" draggable="true">
+                    <!-- Cards serão adicionados aqui -->
                 </div>
-                <button class="botao-customizado"><span style="font-weight: bold;">+</span> Nova Negociação</button>
             </div>
 
-            <div class=" titulo_coluna">
-                <h5 class="margin_titulo">Proposta Feita</h5>
-                <div class="lead">
-                    <?php
-                    $stmt2 = $conexao->prepare("SELECT * FROM propostas");
-                    $stmt2->execute();
-                    while ($userData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<div class='lead-card card m-2'>";
-                        echo "<div class='border-top border-3 border-secondary fw-bold'><h5><strong>" . $userData['nome_proposta'] . "</strong></h5></div>";
-                        echo "<div class='h6'><p><strong>Primeiro contato:</strong> " . $userData['data_primeiro_contato'] . "</p></div>";
-                        echo "<div class='h6'><p><strong>Data proposta:</strong> " . $userData['data_proposta'] . "</p></div>";
-                        echo "<div class='fs-6 text-light bg-secondary rounded text-center'><p><strong>Detalhes:</strong> " . $userData['descricao'] . "</p></div>";
-                        echo "</div>";
-                    }
-                    ?>
+            <div class="titulo_coluna lead">
+                <h5 class="margin_titulo column">Proposta Feita</h5>
+                <div id="propostaFeita" class="lead" draggable="true">
+                    <!-- Cards serão adicionados aqui -->
                 </div>
-                <button class="botao-customizado"><span style="font-weight: bold;">+</span> Nova Negociação</button>
             </div>
 
-            <div class=" titulo_coluna">
-                <h5 class="margin_titulo">Negociando</h5>
-                <div class="lead">
-                    <?php
-                    $stmt2 = $conexao->prepare("SELECT * FROM negociacoes");
-                    $stmt2->execute();
-                    while ($userData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<div class='lead-card card m-2'>";
-                        echo "<div class='border-top border-3 border-secondary fw-bold'><h5><strong>" . $userData['nome_negociacao'] . "</strong></h5></div>";
-                        echo "<div class='h6'><p><strong>Prazo limite:</strong> " . $userData['data_negociacao'] . "</p></div>";
-                        echo "<div class='fs-6 text-light bg-secondary rounded text-center'><p><strong>Detalhes:</strong> " . $userData['descricao'] . "</p></div>";
-                        echo "</div>";
-                    }
-                    ?>
+            <div class="titulo_coluna lead">
+                <h5 class="margin_titulo column">Fechado</h5>
+                <div id="fechado" class="lead" draggable="true">
+                    <!-- Cards serão adicionados aqui -->
                 </div>
-                <button class="botao-customizado"><span style="font-weight: bold;">+</span> Nova Negociação</button>
             </div>
-                
-
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <!-- Modal de Novo Registro -->
+    <div class="modal fade" id="novoRegistroModal" tabindex="-1" aria-labelledby="novoRegistroModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novoRegistroModalLabel">Novo Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="novoRegistroForm">
+                        <div class="mb-3">
+                            <label for="nomeLead" class="form-label">Nome do Lead</label>
+                            <input type="text" class="form-control" id="nomeLead" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interesse" class="form-label">Interesse</label>
+                            <input type="text" class="form-control" id="interesse" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="valor" class="form-label">Valor</label>
+                            <input type="text" class="form-control" id="valor" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Registro -->
+    <div class="modal fade" id="editarRegistroModal" tabindex="-1" aria-labelledby="editarRegistroModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarRegistroModalLabel">Editar Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarRegistroForm">
+                        <div class="mb-3">
+                            <label for="editNomeLead" class="form-label">Nome do Lead</label>
+                            <input type="text" class="form-control" id="editNomeLead" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editInteresse" class="form-label">Interesse</label>
+                            <input type="text" class="form-control" id="editInteresse" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editValor" class="form-label">Valor</label>
+                            <input type="text" class="form-control" id="editValor" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../app/js/dashboard.js"></script>
 </body>
 
 </html>
