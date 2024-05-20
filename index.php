@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_POST['login'])) {
     $usuario = $_POST['usuario'];
-    $senha = $_POST['password'];
+    $senha = $_POST['senha'];
 
     require('config/auth.php');
 
@@ -44,7 +44,7 @@ if (isset($_POST['login'])) {
             <div class="d-flex justify-content-center">
                 <div class="mb-3"> 
 
-                    <form action="public/dashboard.php" method="POST">
+                    <form action="" method="POST">
 
                     <div class="my-3">
                         Usuário: <input type="text" required class="form-control" name="usuario">
@@ -55,7 +55,7 @@ if (isset($_POST['login'])) {
                     </div>
 
                     <div class="d-flex justify-content-center mt-3">
-                        <input class="btn btn-primary btn-lg" type="submit" name="submit" value="Entrar">
+                        <input class="btn btn-primary btn-lg" type="submit" name="login" value="Entrar">
                     </div>
 
                 </form>
