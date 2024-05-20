@@ -36,6 +36,11 @@ CREATE TABLE IF NOT EXISTS `vendas` (
 
 -- INSERINDO DADOS PARA TESTES
 
+INSERT INTO `admin` (`id`, `usuario`, `email`, `senha`) VALUES
+ (1, 'admin', 'admin@gmail.com', '123'),
+ (2, 'gabriel', 'gabriel@gmail.com', 'gabriel123'),
+ (3, 'melissa', 'melissa@gmail.com', 'melissa123');
+
 INSERT INTO `clientes` (`id`, `razao`, `cnpj`, `ramo`, `endereco`, `email`) VALUES
 (1, 'Empresa 1', '12345678911', 'Financeiro', 'Endereço 1, 001', 'empresa1@gmail.com'),
 (2, 'Empresa 2', '12345678912', 'Farmaceutico', 'Endereço 2, 002', 'empresa2@gmail.com'),
@@ -50,5 +55,4 @@ INSERT INTO `vendas` (`id`, `razao`, `cnpj`, `itens`, `quantidade`, `valor`, `da
 (3, 'Empresa 1', '12345678911', 'T PVC 100mm', 5, 10.0, '2024-05-20 15:40:59'),
 (4, 'Empresa 1', '12345678911', 'Argamassa 20kg', 2, 100.0, '2024-05-20 15:40:59');
 
-INSERT INTO `admin` (`id`, `usuario`, `email`, `senha`) VALUES
-(1, 'admin', 'admin@gmail.com', '123');
+
