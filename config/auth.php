@@ -18,10 +18,10 @@ function verificarCredenciais($usuario, $senha) {
     try {
         $conexao = conectarDB();
 
-        $query = "SELECT id FROM vendedores WHERE usuario = :usuario AND senha = :senha";
+        $query = "SELECT id FROM admin WHERE usuario = :usuario AND senha = :senha";
         $stmt = $conexao->prepare($query);
-        $stmt->bindParam(':usuario', $cnpj);
-        $stmt->bindParam(':usuario', $senha);
+        $stmt->bindParam(':usuario', $usuario);
+        $stmt->bindParam(':senha', $senha);
         $stmt->execute();
 
         if ($stmt->rowCount() == 1) {
