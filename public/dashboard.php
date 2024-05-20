@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +44,7 @@
                         <a class="nav-link disabled" href="configuracoes.php">Configurações</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sair</a>
+                        <a class="nav-link" href="logout/logout.php">Sair</a>
                     </li>
                 </ul>
             </div>
