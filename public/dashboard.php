@@ -1,3 +1,15 @@
+<?php
+include ("../config/config.php");
+
+session_start();
+
+$consultaCards = "SELECT * FROM vendas ORDER BY id ASC";
+$stmt = $conexao->prepare($consultaCards);
+$stmt->execute();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +20,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../app/class/dashboard.css">
+    <link rel="stylesheet" href="../app/class/clientes.css">
 
 </head>
 
@@ -24,21 +36,18 @@
                 aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>]
-                
+
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="dashboard.php">Etapas de vendas</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="clientes.php">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vendedores.php">Vendedores</a>
+                        <a class="nav-link" aria-current="page" href="vendedores.php">Vendedores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="configuracoes.php">Configurações</a>
+                        <a class="nav-link disabled" href="configuracoes.php">Configurações</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sair</a>
@@ -49,111 +58,43 @@
     </nav>
     <!-- fim cabeçalho -->
 
-    <button id="addLeadBtn" class="btn btn-primary"><span style="font-weight: bold;">+</span> Nova Negociação</button>
-
-    <div class="colunas">
-        <div class="d-flex">
-
-            <div class="titulo_coluna lead">
-                <h5 class="margin_titulo column">Lead in</h5>
-                <div id="leadIn" class="lead" draggable="true">
-                    <!-- Cards serão adicionados aqui -->
-                </div>
-            </div>
-
-            <div class="titulo_coluna lead">
-                <h5 class="margin_titulo column">Contato Feito</h5>
-                <div id="contatoFeito" class="lead" draggable="true">
-                    <!-- Cards serão adicionados aqui -->
-                </div>
-            </div>
-
-            <div class="titulo_coluna lead">
-                <h5 class="margin_titulo column">Em Progresso</h5>
-                <div id="emProgresso" class="lead" draggable="true">
-                    <!-- Cards serão adicionados aqui -->
-                </div>
-            </div>
-
-            <div class="titulo_coluna lead">
-                <h5 class="margin_titulo column">Proposta Feita</h5>
-                <div id="propostaFeita" class="lead" draggable="true">
-                    <!-- Cards serão adicionados aqui -->
-                </div>
-            </div>
-
-            <div class="titulo_coluna lead">
-                <h5 class="margin_titulo column">Fechado</h5>
-                <div id="fechado" class="lead" draggable="true">
-                    <!-- Cards serão adicionados aqui -->
-                </div>
-            </div>
-        </div>
+    <div class="search">
+        <form>
+            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" id="searchInput">
+        </form>
     </div>
 
-    <!-- Modal de Novo Registro -->
-    <div class="modal fade" id="novoRegistroModal" tabindex="-1" aria-labelledby="novoRegistroModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="novoRegistroModalLabel">Novo Registro</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="novoRegistroForm">
-                        <div class="mb-3">
-                            <label for="nomeLead" class="form-label">Nome do Lead</label>
-                            <input type="text" class="form-control" id="nomeLead" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="interesse" class="form-label">Interesse</label>
-                            <input type="text" class="form-control" id="interesse" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="valor" class="form-label">Valor</label>
-                            <input type="text" class="form-control" id="valor" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Adicionar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="col-12">
+        <table class="content-table small-screen">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Razão Social</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">Itens</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Dta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                while ($userData = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . $userData['id'] . "</td>";
+                    echo "<td>" . $userData['razao'] . "</td>";
+                    echo "<td>" . $userData['cnpj'] . "</td>";
+                    echo "<td>" . $userData['itens'] . "</td>";
+                    echo "<td>" . $userData['quantidade'] . "</td>";
+                    echo "<td>" . $userData['valor'] . "</td>";
+                    echo "<td>" . $userData['data'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Modal de Edição de Registro -->
-    <div class="modal fade" id="editarRegistroModal" tabindex="-1" aria-labelledby="editarRegistroModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editarRegistroModalLabel">Editar Registro</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editarRegistroForm">
-                        <div class="mb-3">
-                            <label for="editNomeLead" class="form-label">Nome do Lead</label>
-                            <input type="text" class="form-control" id="editNomeLead" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editInteresse" class="form-label">Interesse</label>
-                            <input type="text" class="form-control" id="editInteresse" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editValor" class="form-label">Valor</label>
-                            <input type="text" class="form-control" id="editValor" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
