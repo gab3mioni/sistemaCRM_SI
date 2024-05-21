@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <title>Sign In</title>
+    <title>Login</title>
 </head>
 <body class="bg-gray">
 
@@ -36,7 +36,7 @@ if (isset($_POST['login'])) {
 
                 <div class="d-flex justify-content-center">
                     <div class="mt-5">
-                        <h2 class="h1 fw-bolder text-blue">SIGN IN</h2>
+                        <h2 class="h1 fw-bolder text-blue">LOGIN</h2>
                     </div>
                 </div>
             </div>
