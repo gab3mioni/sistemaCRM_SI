@@ -28,9 +28,9 @@ $stmt->execute();
 
 <body>
 
-    <!-- cabeçalho -->
+<!-- cabeçalho -->
 
-    <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">CRM FATEC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -58,7 +58,7 @@ $stmt->execute();
                         <a class="nav-link disabled" href="configuracoes.php">Configurações</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sair</a>
+                        <a class="nav-link" href="../config/logout.php">Sair</a>
                     </li>
                 </ul>
             </div>
