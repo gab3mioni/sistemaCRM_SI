@@ -65,45 +65,87 @@ $stmt->execute();
 
 
     <div class="container mt-4">
-        <div class="search mb-4">
-            <form id="searchForm">
-                <div class="input-group">
-                    <input class="form-control" type="search" placeholder="Buscar por Razão Social, CNPJ ou Ramo"
-                        name="query" aria-label="Search" id="searchQuery">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
+    <div class="search mb-4">
+        <form id="searchForm">
+            <div class="input-group">
+                <input class="form-control" type="search" placeholder="Buscar por Razão Social, CNPJ ou Ramo"
+                    name="query" aria-label="Search" id="searchQuery">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </form>
+
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addClientesModal">Adicionar Cliente</button>
+    </div>
+
+    <div class="col-12">
+        <table class="content-table table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Razão Social</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">Ramo</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">E-mail</th>
+                </tr>
+            </thead>
+            <tbody id="results">
+                <?php
+                while ($userData = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($userData['id']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userData['razao']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userData['cnpj']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userData['ramo']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userData['endereco']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userData['email']) . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal para Adicionar Cliente -->
+<div class="modal fade" id="addClientesModal" tabindex="-1" aria-labelledby="addClientesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addClientesModalLabel">Adicionar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addClientesForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="razao" class="form-label">Razão Social</label>
+                        <input type="text" class="form-control" id="razao" name="razao" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cnpj" class="form-label">CNPJ</label>
+                        <input type="text" class="form-control" id="cnpj" name="cnpj" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ramo" class="form-label">Ramo</label>
+                        <input type="text" class="form-control" id="ramo" name="ramo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endereco" class="form-label">Endereço</label>
+                        <input type="text" class="form-control" id="endereco" name="endereco" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
                 </div>
             </form>
         </div>
-
-        <div class="col-12">
-            <table class="content-table table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Razão Social</th>
-                        <th scope="col">CNPJ</th>
-                        <th scope="col">Ramo</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">E-mail</th>
-                    </tr>
-                </thead>
-                <tbody id="results">
-                    <?php
-                    while ($userData = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($userData['id']) . "</td>";
-                        echo "<td>" . htmlspecialchars($userData['razao']) . "</td>";
-                        echo "<td>" . htmlspecialchars($userData['cnpj']) . "</td>";
-                        echo "<td>" . htmlspecialchars($userData['ramo']) . "</td>";
-                        echo "<td>" . htmlspecialchars($userData['endereco']) . "</td>";
-                        echo "<td>" . htmlspecialchars($userData['email']) . "</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -114,7 +156,7 @@ $stmt->execute();
             e.preventDefault();
             const query = document.getElementById('searchQuery').value;
 
-            fetch('../config/search.php', {
+            fetch('../config/search/searchClientes.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -127,6 +169,23 @@ $stmt->execute();
                 })
                 .catch(error => console.error('Erro:', error));
         });
+
+        document.getElementById('addClientesForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('../config/add/addClientes.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            location.reload(); // Recarregar a página para exibir o novo cliente
+        })
+        .catch(error => console.error('Erro:', error));
+    });
         
     </script>
 </body>
