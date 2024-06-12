@@ -102,7 +102,6 @@ $stmt->execute();
     </div>
 </div>
 
-<!-- Modal para Adicionar Vendedor -->
 <div class="modal fade" id="addVendedorModal" tabindex="-1" aria-labelledby="addVendedorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -176,7 +175,7 @@ $stmt->execute();
         .then(response => response.text())
         .then(data => {
             alert(data);
-            location.reload(); // Recarregar a página para exibir o novo vendedor
+            location.reload();
         })
         .catch(error => console.error('Erro:', error));
     });

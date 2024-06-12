@@ -1,7 +1,7 @@
 <?php
 include ("../config/config.php");
 session_start();
-$limit = 15;
+$limit = 10;
 
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
@@ -123,7 +123,6 @@ $stmt->execute();
         </div>
 
         <nav>
-            <!-- Paginação -->
         </nav>
     </div>
 
@@ -225,7 +224,7 @@ $stmt->execute();
                 .then(response => response.text())
                 .then(data => {
                     alert(data);
-                    location.reload(); // Recarregar a página para exibir a nova venda
+                    location.reload();
                 })
                 .catch(error => console.error('Erro:', error));
         });
